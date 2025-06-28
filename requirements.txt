@@ -1,0 +1,22 @@
+# requirements.txt
+
+# Web 服务器
+aiohttp
+aiohttp_cors
+
+# 数据库驱动
+aiomysql
+
+# LLM SDK
+dashscope
+
+# SQL 解析与安全
+sqlparse
+
+# Streamlit 前端
+streamlit
+pandas
+requests
+
+# 加载 .env 文件
+python-dotenv
