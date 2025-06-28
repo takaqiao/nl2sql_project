@@ -21,20 +21,23 @@ def build_prompt(user_question: str, schema_string: str) -> str:
 {schema_string}
 
 ### 指示
-1.  只生成 `SELECT` 类型的 SQL 查询。
+1.  **只生成 `SELECT` 类型的 SQL 查询。**
 2.  确保 SQL 语法正确无误，并且符合 MySQL 规范。
-3.  不要在 SQL 中使用任何可能修改数据库的操作（如 UPDATE, DELETE）。
-4.  如果问题无法根据提供的表结构回答，请返回 "Error: Cannot answer the question with the given schema."
+3.  **生成查询时，请考虑其执行效率。例如，优先使用 `JOIN` 而不是复杂的子查询，在适当的情况下使用 `EXISTS` 代替 `IN`。**
+4.  不要在 SQL 中使用任何可能修改数据库的操作（如 UPDATE, DELETE）。
+5.  如果问题无法根据提供的表结构回答，请返回 "Error: Cannot answer the question with the given schema."
 
 ### 示例 (Few-shot examples):
 # Question: List the names of all courses ordered by their titles and credits.
 SELECT title, credits FROM course ORDER BY title, credits;
 
 # Question: What are the titles of courses without prerequisites?
+# Efficient query using LEFT JOIN...IS NULL pattern
 SELECT T.title FROM course AS T LEFT JOIN prereq AS P ON T.course_id = P.course_id WHERE P.prereq_id IS NULL;
 
 # Question: What are the names of students who have more than one advisor?
-SELECT name FROM student WHERE ID IN (SELECT s_ID FROM advisor GROUP BY s_ID HAVING count(*) > 1);
+# Efficient query using GROUP BY and HAVING
+SELECT S.name FROM student AS S JOIN advisor AS A ON S.ID = A.s_ID GROUP BY S.ID, S.name HAVING count(*) > 1;
 
 ### 用户问题
 {user_question}

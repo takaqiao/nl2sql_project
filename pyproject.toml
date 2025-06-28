@@ -1,7 +1,33 @@
 [project]
 name = "nl2sql-project"
-version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
-requires-python = ">=3.11"
-dependencies = []
+version = "1.0.0"
+description = "A Natural Language to SQL query system based on LLM and MCP service."
+requires-python = ">=3.9"
+dependencies = [
+    # Web 服务器
+    "aiohttp",
+    "aiohttp_cors",
+
+    # 数据库驱动
+    "aiomysql",
+
+    # LLM SDK
+    "dashscope",
+
+    # SQL 解析与安全
+    "sqlparse",
+
+    # Streamlit 前端
+    "streamlit",
+    "pandas",
+    "requests",
+
+    # 加载 .env 文件
+    "python-dotenv",
+
+    # CLI 界面美化
+    "rich",
+]
+
+[tool.uv]
+# This section can be used for uv-specific configurations if needed.

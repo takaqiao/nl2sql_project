@@ -15,12 +15,16 @@ st.caption("基于大语言模型与 MCP 服务的数据库查询")
 # --- 会话状态管理 ---
 if 'query_history' not in st.session_state:
     st.session_state.query_history = []
-if 'current_result' not in st.session_state:
-    st.session_state.current_result = None
+if 'current_result_data' not in st.session_state:
+    st.session_state.current_result_data = []
 if 'current_sql' not in st.session_state:
     st.session_state.current_sql = ""
 if 'error_message' not in st.session_state:
     st.session_state.error_message = ""
+if 'last_prompt' not in st.session_state:
+    st.session_state.last_prompt = ""
+if 'next_offset' not in st.session_state:
+    st.session_state.next_offset = 0
 
 # --- API 调用函数 ---
 def query_mcp_server(prompt, page_size=10, offset=0):
@@ -49,25 +53,29 @@ with col1:
         submitted = st.form_submit_button("🚀 执行查询")
 
     if submitted:
-        if not natural_language_query.strip():
-            st.error("问题不能为空！")
-        else:
-            with st.spinner("正在思考并查询数据库..."):
-                result = query_mcp_server(natural_language_query)
-                st.session_state.current_result = result
-                
-                if "error" in result:
-                    st.session_state.error_message = result.get("error")
-                    st.session_state.current_sql = result.get("generated_sql", "")
-                else:
-                    st.session_state.error_message = ""
-                    st.session_state.current_sql = result.get("generated_sql", "")
-                
-                # 记录历史
-                st.session_state.query_history.insert(0, {
-                    "question": natural_language_query,
-                    "result": result
-                })
+        st.session_state.last_prompt = natural_language_query
+        st.session_state.next_offset = 0 # 新查询，重置 offset
+        st.session_state.current_result_data = [] # 新查询，重置数据
+        
+        with st.spinner("正在思考并查询数据库..."):
+            result = query_mcp_server(natural_language_query, offset=0)
+            
+            if "error" in result:
+                st.session_state.error_message = result.get("error")
+                st.session_state.current_sql = result.get("generated_sql", "")
+                st.session_state.current_result_data = []
+            else:
+                st.session_state.error_message = ""
+                st.session_state.current_sql = result.get("generated_sql", "")
+                st.session_state.current_result_data = result.get("data", [])
+                st.session_state.next_offset = result.get("next_offset")
+            
+            # 记录历史
+            st.session_state.query_history.insert(0, {
+                "question": natural_language_query,
+                "sql": st.session_state.current_sql,
+                "error": st.session_state.error_message
+            })
 
 
 # --- 结果展示 ---
@@ -80,15 +88,23 @@ if st.session_state.error_message:
 if st.session_state.current_sql:
     st.code(st.session_state.current_sql, language="sql")
 
-if st.session_state.current_result and "data" in st.session_state.current_result:
-    data = st.session_state.current_result["data"]
-    if data:
-        df = pd.DataFrame(data)
-        st.dataframe(df)
-        st.success(f"查询成功，返回 {len(data)} 条记录。")
-    else:
-        st.info("查询成功，但没有返回任何数据。")
+if st.session_state.current_result_data:
+    df = pd.DataFrame(st.session_state.current_result_data)
+    st.dataframe(df)
+    st.success(f"当前已加载 {len(st.session_state.current_result_data)} 条记录。")
 
+# --- 分页按钮逻辑 ---
+if st.session_state.next_offset:
+    if st.button("加载下一页 (Load More)"):
+        with st.spinner("正在加载更多结果..."):
+            result = query_mcp_server(st.session_state.last_prompt, offset=st.session_state.next_offset)
+            if "error" in result:
+                st.session_state.error_message = result.get("error")
+            else:
+                st.session_state.current_result_data.extend(result.get("data", []))
+                st.session_state.next_offset = result.get("next_offset")
+            st.rerun() # 重新渲染页面以显示新数据
+            
 # --- 侧边栏 ---
 with st.sidebar:
     st.header("功能区")
@@ -130,4 +146,6 @@ with col2:
     else:
         for i, item in enumerate(st.session_state.query_history):
             with st.expander(f"#{i+1}: {item['question'][:50]}..."):
-                st.json(item['result'])
+                st.code(item['sql'], language="sql")
+                if item['error']:
+                    st.error(item['error'])
