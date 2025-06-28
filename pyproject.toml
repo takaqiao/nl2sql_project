@@ -27,6 +27,9 @@ dependencies = [
 
     # CLI 界面美化
     "rich",
+    
+    # 数据库加密支持 (新添加)
+    "cryptography",
 ]
 
 [tool.uv]

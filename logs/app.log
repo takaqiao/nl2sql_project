@@ -1,0 +1,161 @@
+2025-06-28 14:29:53,062 - root - INFO - MCP 服务器将在 http://0.0.0.0:8080 启动
+2025-06-28 14:29:53,063 - root - INFO - 正在初始化数据库连接池...
+2025-06-28 14:29:53,069 - root - ERROR - 数据库连接失败: 'cryptography' package is required for sha256_password or caching_sha2_password auth methods
+2025-06-28 14:31:11,679 - root - INFO - MCP 服务器将在 http://0.0.0.0:8080 启动
+2025-06-28 14:31:11,679 - root - INFO - 正在初始化数据库连接池...
+2025-06-28 14:31:11,703 - root - INFO - 数据库连接池初始化成功。
+2025-06-28 14:32:13,332 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:32:13 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:32:39,279 - root - INFO - LLM 生成的 SQL: SELECT course_id, title, dept_name, credits 
+FROM course 
+WHERE dept_name = 'Comp. Sci.';
+2025-06-28 14:32:39,287 - root - ERROR - 处理 /query 时发生未知错误: module 'sqlparse.tokens' has no attribute 'Identifier'
+Traceback (most recent call last):
+  File "C:\Users\Taka\nl2sql_project\mcp_server\server.py", line 51, in handle_query
+    result = await orchestrator.process_natural_language_query(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\orchestrator.py", line 67, in process_natural_language_query
+    is_safe, error_message = security.run_all_security_checks(question, generated_sql)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 52, in run_all_security_checks
+    if contains_forbidden_fields(generated_sql):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 35, in contains_forbidden_fields
+    if token.ttype is sqlparse.tokens.Name or token.ttype is sqlparse.tokens.Identifier:
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'sqlparse.tokens' has no attribute 'Identifier'
+2025-06-28 14:32:39,289 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:32:37 +0800] "POST /query HTTP/1.1" 500 226 "-" "python-requests/2.32.4"
+2025-06-28 14:32:39,302 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:32:39 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:32:45,269 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:32:45 +0800] "GET /query HTTP/1.1" 405 214 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-06-28 14:32:45,312 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:32:45 +0800] "GET /favicon.ico HTTP/1.1" 404 175 "http://localhost:8080/query" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
+2025-06-28 14:33:12,021 - root - INFO - LLM 生成的 SQL: SELECT course_id, title, dept_name, credits 
+FROM course 
+WHERE dept_name = 'Comp. Sci.';
+2025-06-28 14:33:12,022 - root - ERROR - 处理 /query 时发生未知错误: module 'sqlparse.tokens' has no attribute 'Identifier'
+Traceback (most recent call last):
+  File "C:\Users\Taka\nl2sql_project\mcp_server\server.py", line 51, in handle_query
+    result = await orchestrator.process_natural_language_query(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\orchestrator.py", line 67, in process_natural_language_query
+    is_safe, error_message = security.run_all_security_checks(question, generated_sql)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 52, in run_all_security_checks
+    if contains_forbidden_fields(generated_sql):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 35, in contains_forbidden_fields
+    if token.ttype is sqlparse.tokens.Name or token.ttype is sqlparse.tokens.Identifier:
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'sqlparse.tokens' has no attribute 'Identifier'
+2025-06-28 14:33:12,023 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:33:11 +0800] "POST /query HTTP/1.1" 500 226 "-" "python-requests/2.32.4"
+2025-06-28 14:33:12,052 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:33:12 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:33:35,373 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:33:35 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:33:36,619 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:33:36 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:33:42,572 - root - INFO - LLM 生成的 SQL: SELECT title, credits FROM course ORDER BY title, credits;
+2025-06-28 14:33:42,574 - root - ERROR - 处理 /query 时发生未知错误: module 'sqlparse.tokens' has no attribute 'Identifier'
+Traceback (most recent call last):
+  File "C:\Users\Taka\nl2sql_project\mcp_server\server.py", line 51, in handle_query
+    result = await orchestrator.process_natural_language_query(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\orchestrator.py", line 67, in process_natural_language_query
+    is_safe, error_message = security.run_all_security_checks(question, generated_sql)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 52, in run_all_security_checks
+    if contains_forbidden_fields(generated_sql):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 35, in contains_forbidden_fields
+    if token.ttype is sqlparse.tokens.Name or token.ttype is sqlparse.tokens.Identifier:
+                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: module 'sqlparse.tokens' has no attribute 'Identifier'
+2025-06-28 14:33:42,575 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:33:41 +0800] "POST /query HTTP/1.1" 500 226 "-" "python-requests/2.32.4"
+2025-06-28 14:33:42,582 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:33:42 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:35:16,376 - root - INFO - 正在关闭数据库连接池...
+2025-06-28 14:35:16,377 - root - INFO - 数据库连接池已关闭。
+2025-06-28 14:35:19,771 - root - INFO - MCP 服务器将在 http://0.0.0.0:8080 启动
+2025-06-28 14:35:19,772 - root - INFO - 正在初始化数据库连接池...
+2025-06-28 14:35:19,777 - root - INFO - 数据库连接池初始化成功。
+2025-06-28 14:35:25,839 - root - INFO - LLM 生成的 SQL: SELECT title, credits FROM course ORDER BY title, credits;
+2025-06-28 14:35:25,843 - root - ERROR - 处理 /query 时发生未知错误: 'Token' object has no attribute 'is_identifier'
+Traceback (most recent call last):
+  File "C:\Users\Taka\nl2sql_project\mcp_server\server.py", line 51, in handle_query
+    result = await orchestrator.process_natural_language_query(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\orchestrator.py", line 67, in process_natural_language_query
+    is_safe, error_message = security.run_all_security_checks(question, generated_sql)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 53, in run_all_security_checks
+    if contains_forbidden_fields(generated_sql):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 36, in contains_forbidden_fields
+    if token.is_identifier:
+       ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Token' object has no attribute 'is_identifier'
+2025-06-28 14:35:25,845 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:35:25 +0800] "POST /query HTTP/1.1" 500 226 "-" "python-requests/2.32.4"
+2025-06-28 14:35:25,852 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:35:25 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:37:04,006 - root - INFO - 正在关闭数据库连接池...
+2025-06-28 14:37:04,007 - root - INFO - 数据库连接池已关闭。
+2025-06-28 14:37:26,977 - root - INFO - MCP 服务器将在 http://0.0.0.0:8080 启动
+2025-06-28 14:37:26,978 - root - INFO - 正在初始化数据库连接池...
+2025-06-28 14:37:26,983 - root - INFO - 数据库连接池初始化成功。
+2025-06-28 14:37:30,299 - root - INFO - LLM 生成的 SQL: SELECT title, credits FROM course ORDER BY title, credits;
+2025-06-28 14:37:30,303 - root - ERROR - 处理 /query 时发生未知错误: 'Token' object has no attribute 'is_identifier'
+Traceback (most recent call last):
+  File "C:\Users\Taka\nl2sql_project\mcp_server\server.py", line 51, in handle_query
+    result = await orchestrator.process_natural_language_query(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\orchestrator.py", line 67, in process_natural_language_query
+    is_safe, error_message = security.run_all_security_checks(question, generated_sql)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 53, in run_all_security_checks
+    if contains_forbidden_fields(generated_sql):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 36, in contains_forbidden_fields
+    if token.is_identifier:
+       ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Token' object has no attribute 'is_identifier'
+2025-06-28 14:37:30,304 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:37:29 +0800] "POST /query HTTP/1.1" 500 226 "-" "python-requests/2.32.4"
+2025-06-28 14:37:30,315 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:37:30 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:40:24,329 - root - INFO - 正在关闭数据库连接池...
+2025-06-28 14:40:24,330 - root - INFO - 数据库连接池已关闭。
+2025-06-28 14:42:59,814 - root - INFO - MCP 服务器将在 http://0.0.0.0:8080 启动
+2025-06-28 14:42:59,815 - root - INFO - 正在初始化数据库连接池...
+2025-06-28 14:42:59,821 - root - INFO - 数据库连接池初始化成功。
+2025-06-28 14:45:27,103 - root - INFO - 正在关闭数据库连接池...
+2025-06-28 14:45:27,104 - root - INFO - 数据库连接池已关闭。
+2025-06-28 14:46:57,610 - root - INFO - MCP 服务器将在 http://0.0.0.0:8080 启动
+2025-06-28 14:46:57,611 - root - INFO - 正在初始化数据库连接池...
+2025-06-28 14:46:57,616 - root - INFO - 数据库连接池初始化成功。
+2025-06-28 14:47:22,302 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:47:22 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:47:27,478 - root - INFO - LLM 生成的 SQL: SELECT course_id, title, dept_name, credits 
+FROM course 
+WHERE dept_name = 'Comp. Sci.';
+2025-06-28 14:47:27,482 - root - ERROR - 处理 /query 时发生未知错误: 'Token' object has no attribute 'is_identifier'
+Traceback (most recent call last):
+  File "C:\Users\Taka\nl2sql_project\mcp_server\server.py", line 60, in handle_query
+    result = await orchestrator.process_natural_language_query(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\orchestrator.py", line 67, in process_natural_language_query
+    is_safe, error_message = security.run_all_security_checks(question, generated_sql)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 52, in run_all_security_checks
+    if contains_forbidden_fields(generated_sql):
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Taka\nl2sql_project\core\security.py", line 35, in contains_forbidden_fields
+    if token.is_identifier:
+       ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'Token' object has no attribute 'is_identifier'
+2025-06-28 14:47:27,484 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:47:25 +0800] "POST /query HTTP/1.1" 500 226 "-" "python-requests/2.32.4"
+2025-06-28 14:47:27,514 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:47:27 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:51:00,826 - root - INFO - 正在关闭数据库连接池...
+2025-06-28 14:51:00,827 - root - INFO - 数据库连接池已关闭。
+2025-06-28 14:51:03,294 - root - INFO - MCP 服务器将在 http://0.0.0.0:8080 启动
+2025-06-28 14:51:03,296 - root - INFO - 正在初始化数据库连接池...
+2025-06-28 14:51:03,300 - root - INFO - 数据库连接池初始化成功。
+2025-06-28 14:51:08,182 - root - INFO - LLM 生成的 SQL: SELECT course_id, title, dept_name, credits 
+FROM course 
+WHERE dept_name = 'Comp. Sci.';
+2025-06-28 14:51:08,187 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:51:06 +0800] "POST /query HTTP/1.1" 200 1221 "-" "python-requests/2.32.4"
+2025-06-28 14:51:08,218 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:51:08 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"
+2025-06-28 14:51:16,100 - root - INFO - LLM 生成的 SQL: SELECT course_id, title, dept_name, credits 
+FROM course 
+WHERE dept_name = 'Comp. Sci.';
+2025-06-28 14:51:16,103 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:51:14 +0800] "POST /query HTTP/1.1" 200 306 "-" "python-requests/2.32.4"
+2025-06-28 14:51:16,128 - aiohttp.access - INFO - 127.0.0.1 [28/Jun/2025:14:51:16 +0800] "GET /schema HTTP/1.1" 200 8360 "-" "python-requests/2.32.4"

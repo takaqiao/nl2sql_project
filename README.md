@@ -110,7 +110,7 @@ source .venv/bin/activate  # macOS/Linux
 # .venv\Scripts\activate   # Windows
 
 # 启动服务器
-python mcp_server/server.py
+python -m mcp_server.server
 ```
 
 成功启动后，你会看到服务器在 `http://0.0.0.0:8080` 运行的日志。

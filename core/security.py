@@ -2,6 +2,7 @@
 import re
 import sqlparse
 import logging
+from sqlparse.sql import Identifier
 
 # 安全配置
 FORBIDDEN_FIELDS = {'password', 'salary', 'ssn', 'credentials'}
@@ -24,20 +25,33 @@ def is_readonly_query(sql: str) -> bool:
             return False
     return True
 
-def contains_forbidden_fields(sql: str) -> bool:
-    """检查 SQL 是否查询了被禁止的敏感字段"""
-    parsed = sqlparse.parse(sql)
-    if not parsed:
-        return False
-    
-    tokens = parsed[0].flatten()
+def _find_identifiers(tokens):
+    """一个递归生成器，用于从 token 列表中深度查找所有 Identifier 对象。"""
     for token in tokens:
-        if token.ttype is sqlparse.tokens.Name or token.ttype is sqlparse.tokens.Identifier:
-            if token.value.lower().strip('`"') in FORBIDDEN_FIELDS:
-                logging.warning(f"查询包含敏感字段被拒绝: {token.value}")
-                return True
-    return False
+        # 如果 token 本身就是一个 Identifier 对象，就产生它
+        if isinstance(token, Identifier):
+            yield token
+        # 如果 token 是一个包含子 token 的列表 (并且它不是一个 Identifier)
+        # 那么就递归地进入这个列表进行查找
+        elif token.is_group:
+            yield from _find_identifiers(token.tokens)
 
+def contains_forbidden_fields(sql: str) -> bool:
+    """
+    检查 SQL 是否查询了被禁止的敏感字段 (基于官方文档的正确实现)。
+    """
+    try:
+        parsed = sqlparse.parse(sql)[0]
+        for identifier in _find_identifiers(parsed.tokens):
+            # .get_real_name() 是获取标识符真实名称的推荐方法
+            real_name = identifier.get_real_name()
+            if real_name and real_name.lower() in FORBIDDEN_FIELDS:
+                logging.warning(f"查询包含敏感字段被拒绝: {real_name}")
+                return True
+        return False
+    except IndexError:
+        # 处理空的或无效的 SQL 字符串
+        return False
 def run_all_security_checks(natural_question: str, generated_sql: str) -> (bool, str):
     """
     运行所有安全检查。

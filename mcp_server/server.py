@@ -1,5 +1,14 @@
 # mcp_server/server.py
+import sys
+import sqlparse
 import os
+
+print("--- PYTHON 环境诊断信息 ---")
+print(f"正在使用的 Python 解释器: {sys.executable}")
+print(f"代码看到的 SQLParse 版本:  {sqlparse.__version__}")
+print(f"代码加载的 SQLParse 路径:     {sqlparse.__file__}")
+print("--------------------------------------\n")
+
 import json
 import logging
 from logging.handlers import RotatingFileHandler
